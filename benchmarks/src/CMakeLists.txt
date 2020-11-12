@@ -15,5 +15,10 @@ set(M5_OBJS
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../../../bin)
 
+message("GEM5_LIB_ROOT: ${GEM5_LIB_ROOT}")
+message("GEM5_INC_DIR : ${GEM5_INC_DIR}")
+message("M5_OBJS      : ${M5_OBJS}")
+message("Output dir   : ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
+
 add_subdirectory(daxpy)
 add_subdirectory(MembranePinch1)
