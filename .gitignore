@@ -1,0 +1,4 @@
+benchmarks/bin/*
+benchmarks/m5out/*
+**.pyc
+**/build/

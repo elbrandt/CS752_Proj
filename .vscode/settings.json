@@ -1,0 +1,4 @@
+{
+    "cmake.sourceDirectory": "${workspaceFolder}/benchmarks/src/MembranePinch1",
+    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools"
+}
