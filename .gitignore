@@ -2,3 +2,4 @@ benchmarks/bin/*
 benchmarks/m5out/*
 **.pyc
 **/build/
+spec_cpu2006/**
