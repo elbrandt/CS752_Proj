@@ -1,0 +1,1 @@
+$GEM5_ROOT/build/X86/gem5.opt config/sim-config.py --exe bin/povray --args bin/povray_data/test/input/SPEC-benchmark-test.ini +Ibin/povray_data/test/input/SPEC-benchmark-test.pov +Lbin/povray_data/all/input +Oscene.tga +W20 +H20

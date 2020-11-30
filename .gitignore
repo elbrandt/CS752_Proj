@@ -3,3 +3,6 @@ benchmarks/m5out/*
 **.pyc
 **/build/
 spec_cpu2006/**
+benchmarks/m5out*/
+scene.tga
+SPEC-benchmark.log

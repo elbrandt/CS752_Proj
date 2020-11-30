@@ -205,7 +205,6 @@ struct LatticeMesh : public AnimatedMesh<T, 3>
                 m_gridDX * (T)node_i + m_gridDX * 0.1 * (T) (m_cellSize[0]+m_cellSize[1]),
                 m_gridDX * (T)node_j + m_gridDX * 0.1 * (T) (m_cellSize[0]+m_cellSize[1])
             );
-
     }
 
     void prepareFrame(const int frame)
@@ -216,7 +215,8 @@ struct LatticeMesh : public AnimatedMesh<T, 3>
     void relaxFreeNodes()
     {
         // Relax every interior node
-        for(int iteration = 0; iteration < 1000; iteration++)
+        for(int iteration = 0; iteration < 10; iteration++)
+            std::cout << "relaxFreeNodes iteration " << iteration << std::endl;
             for(int node_i = 1; node_i < m_cellSize[0]; node_i++)
             for(int node_j = 1; node_j < m_cellSize[1]; node_j++){
 
@@ -296,14 +296,16 @@ private:
 int main(int argc, char *argv[])
 {
     LatticeMesh<float> simulationMesh;
-    simulationMesh.m_cellSize = { 40, 40 };
+    simulationMesh.m_cellSize = { 10, 10 };
     simulationMesh.m_gridDX = 0.025;
-    simulationMesh.m_nFrames = 50;
+    simulationMesh.m_nFrames = 2;
     simulationMesh.m_subSteps = 10;
     simulationMesh.m_frameDt = 0.1;
 
     // Initialize the simulation example
+    std::cout << "simulationMesh.initialize()" << std::endl;
     simulationMesh.initialize();
+    std::cout << "simulationMesh.relaxFreeNodes()" << std::endl;
     simulationMesh.relaxFreeNodes();
     
     // Output the initial shape of the mesh
@@ -311,7 +313,9 @@ int main(int argc, char *argv[])
 
     // Perform the animation, output results at each frame
     for(int frame = 1; frame <= simulationMesh.m_nFrames; frame++){
+        std::cout << "prepareFrame " << frame << " of " << simulationMesh.m_nFrames << std::endl;
         simulationMesh.prepareFrame(frame);
+        std::cout << "simulateFrame " << frame << " of " << simulationMesh.m_nFrames << std::endl;
         simulationMesh.simulateFrame(frame);
         //simulationMesh.writeFrame(frame);
     }
