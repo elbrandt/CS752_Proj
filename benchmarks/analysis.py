@@ -59,26 +59,39 @@ def main():
     """main function"""
 
     benchmark_section = {'daxpy':2, 'libquantum':1, 'mempinch1':1, 'povray':1, 'sjeng':1}
-    stat_names = ['host_seconds', 'sim_ticks', 'system.cpu.committedInsts', 'system.cpu.numCycles' ]
+    stat_names = [  'host_seconds', 
+                    'sim_ticks', 
+                    'system.cpu.committedInsts', 
+                    'system.cpu.numCycles', 
+                    'system.l2cache.prefetcher.pfIssued',           # number of hwpf issued
+                    'system.l2cache.prefetcher.usefulPrefetches',    # number of useful hwpf
+                    'system.l2cache.prefetcher.pfIdentified',              # number of prefetch candidates identified
+                    'system.l2cache.prefetcher.pfBufferHit',               # number of redundant prefetches already in prefetch queue
+                    'system.l2cache.prefetcher.pfInCache',              # number of redundant prefetches already in cache/mshr dropped
+                    'system.l2cache.prefetcher.pfSpanPage',           # number of prefetches that crossed the page
+                    'system.l2cache.prefetcher.power_state.pwrStateResidencyTicks::UNDEFINED',    # Cumulative time (in ticks) in various power states
+                    'system.l2cache.tags.occ_percent::.l2cache.prefetcher',    # Average percentage of cache occupancy
+                    'system.mem_ctrl.dram.bw_total::.l2cache.prefetcher'     # Total bandwidth to/from this memory (bytes/s)                  
+                  ]
 
     stats = get_stats_files()
     stats = load_stats(stats, benchmark_section, stat_names)
     stats['ipc'] = stats['system.cpu.committedInsts'] / stats['system.cpu.numCycles']
 
     df_simple = stats[['benchmark', 'config', 'cpu', 'ipc']].sort_values(['cpu', 'benchmark', 'config'])
+    df_simple.rename(columns={'config':'Configuration'}, inplace=True)
+    df_simple.replace('sppv2', 'SPPv2', inplace=True)
+    df_simple.replace('sppv2-ppf', 'SPPv2-PPF', inplace=True)
+    ds2 = df_simple.pivot(index='benchmark', columns='Configuration', values='ipc')
+    axs = ds2.plot(kind='bar')
+    axs.set_ylabel("IPC")
+    axs.set_xlabel("Benchmark")
+    axs.set_title('IPC Comparison, SimpleTimingCPU')
+    plt.xticks(rotation=0)
+    plt.tight_layout()
+    plt.show()
     print(df_simple)
-    # q3
-    # tbl = []
-    # for alg in algs:
-    #     ooo = int(ParseStat(f"results/q2_stats_{alg}.txt", 'sim_ticks', 2)) 
-    #     ooo_opt = int(ParseStat(f"results-O3/q2_stats_{alg}.txt", 'sim_ticks', 2))
-    #     if alg == 'daxpy':
-    #         baseline = ooo
-    #     row = {'Algoritm': alg, 'DerivO3CPU': baseline/ooo, 'DeriveO3CPU_Opt': baseline/ooo_opt}
-    #     tbl.append(row)
-
-    # df = pd.DataFrame(tbl)
-    # print(df.to_latex(index=False, float_format="%.2f"))
+    print(ds2)
 
 if __name__ == '__main__':
     main()
