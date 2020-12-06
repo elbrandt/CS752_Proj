@@ -72,8 +72,8 @@ system.cpu.dcache.connectBus(system.l2bus)
 system.l2cache = L2Cache(options)
 system.l2cache.connectCPUSideBus(system.l2bus)
 system.l2cache.connectMemSideBus(system.membus)
-# system.l2cache.prefetcher = SignaturePathPrefetcherV2()
-# system.l2cache.prefetch_on_access = False
+system.l2cache.prefetcher = SignaturePathPrefetcherV2()
+# system.l2cache.prefetch_on_access = True
 # system.l2cache.prefetcher.enablePPF = False
 
 system.cpu.createInterruptController()

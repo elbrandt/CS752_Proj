@@ -4,5 +4,6 @@ benchmarks/m5out/*
 **/build/
 spec_cpu2006/**
 benchmarks/m5out*/
+results*/
 scene.tga
 SPEC-benchmark.log

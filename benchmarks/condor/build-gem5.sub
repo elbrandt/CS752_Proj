@@ -1,0 +1,19 @@
+# gem5 build submission file
+universe = docker
+docker_image = gcr.io/gem5-test/ubuntu-20.04_all-dependencies
+
+log = logs/build-gem5.log
+error = logs/build-gem5.err
+output = logs/build-gem5.out
+
+executable = build-gem5.sh
+
+should_transfer_files = YES
+when_to_transfer_output = ON_EXIT
+transfer_input_files = ../gem5sgs/
+
+request_cpus = 8
+request_memory = 12GB
+request_disk = 12GB
+
+queue 1

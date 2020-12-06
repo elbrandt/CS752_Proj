@@ -1,0 +1,21 @@
+# running DAXPY in gem5 submission file
+universe = docker
+docker_image = gcr.io/gem5-test/ubuntu-20.04_all-dependencies
+
+executable = run-daxpy.sh
+# if we want DAXPY to be size 1K
+arguments = 1024
+
+log = logs/run-daxpy.log
+error = logs/run-daxpy.err
+output = logs/run-daxpy.out
+
+should_transfer_files = YES
+when_to_transfer_output = ON_EXIT
+transfer_input_files = ../gem5sgs/, ../bin/, ../config/
+
+request_cpus = 1
+request_memory = 4GB
+request_disk = 12GB
+
+queue 1
